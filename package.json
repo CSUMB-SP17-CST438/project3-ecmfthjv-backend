@@ -8,6 +8,7 @@
     "type": "git",
     "url": "git+https://github.com/CSUMB-SP17-CST438/project3-ecmfthjv-backend.git"
   },
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
