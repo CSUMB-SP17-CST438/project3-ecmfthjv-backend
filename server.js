@@ -23,5 +23,7 @@ router.get('/', function(req, res) {
 app.use('/api', router);
 
 //Start server
-app.listen(port);
+var Server = app.listen(port);
 console.log('Server listening on port %d in %s mode', app.get('port'), app.get('IP'));
+
+module.exports = Server;
