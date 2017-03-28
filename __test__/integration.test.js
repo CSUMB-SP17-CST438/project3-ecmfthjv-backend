@@ -8,6 +8,7 @@ beforeAll(() => {
 //Close server after each test
 afterAll(() => {
   Server.close();
+  setTimeout(() => process.exit(), 1000);
 });
 
 describe('Server test 1', function() {
