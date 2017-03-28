@@ -1,3 +1,8 @@
+//server.js
+
+// BASE SETUP
+// =============================================================================
+
 //Configure express server
 var express    = require('express');
 var app        = express();
@@ -9,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;        // set our port
+
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/my_database_name');//connect to locally hosted db
 
 // ROUTES FOR API
 // =============================================================================
@@ -24,6 +32,7 @@ app.use('/api', router);
 
 //Start server
 var Server = app.listen(port);
-console.log('Server listening on port %d in %s mode', app.get('port'), app.get('IP'));
+//console.log('Server listening on port %d in %s mode', app.get('port'), app.get('IP'));
+console.log('Server listening on port %d in %s mode', port, app.get('env'));
 
 module.exports = Server;
