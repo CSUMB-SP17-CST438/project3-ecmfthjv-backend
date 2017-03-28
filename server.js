@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 var port = process.env.PORT || 8080;        // set our port
 
 var mongoose = require('mongoose');
-var uri = process.env.MONGOLAB_URI;
+var uri = process.env.MONGODB_URI;
 mongoose.connect(uri);//connect to db
 
 var ARposts = require('./app/models/terrasiteDB')
