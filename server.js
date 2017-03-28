@@ -17,7 +17,7 @@ var port = process.env.PORT || 8080;        // set our port
 
 var mongoose = require('mongoose');
 var uri = process.env.MONGOLAB_URI;
-mongoose.connect('mongodb://localhost:27017/my_database_name');//connect to locally hosted db
+mongoose.connect(uri);//connect to db
 
 var ARposts = require('./app/models/terrasiteDB')
 
