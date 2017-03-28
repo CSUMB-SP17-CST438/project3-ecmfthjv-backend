@@ -2,11 +2,11 @@ const request = require('supertest');
 var Server;
 
 //Start server before each test
-beforeEach(() => {
+beforeAll(() => {
   Server = require('../server');
 });
 //Close server after each test
-afterEach(() => {
+afterAll(() => {
   Server.close();
 });
 
