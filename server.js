@@ -1,23 +1,33 @@
 //server.js
-
+// Aquire env vars from .env file
+require('dotenv').config();
 // BASE SETUP
 // =============================================================================
+// Imports
+var jwt = require('jsonwebtoken');
+var config = require('./config');
 
 //Configure express server
 var express    = require('express');
 var app        = express();
 
+// Set secret variable
+app.set('superSecret', config.secret);
+
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 var bodyParser = require('body-parser');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+// Log all requests to console
+app.use(morgan('dev'));
 
 var port = process.env.PORT || 8080;        // set our port
 
 var mongoose = require('mongoose');
-var uri = process.env.MONGODB_URI;
-mongoose.connect(uri);//connect to db
+mongoose.connect(config.databaseURI);//connect to db
 
 var ARposts = require('./app/models/terrasiteDB')
 
@@ -44,32 +54,32 @@ router.route('/arposts')
 
     //create a new post (accessed at POST http://localhost:8080/api/arposts)
     .post(function(req, res){
-    
+
         var arpost = new ARposts();//create new instance of post model
         arpost.name = req.body.name;//set name & other values of post
         arpost.longitude = req.body.longitude;
         arpost.latitude = req.body.latitude;
         arpost.content = req.body.content;
-    
+
     //save the post & check for errors
         arpost.save(function(err){
             if(err)
                 res.send(err);
-        
+
             res.json({message: 'Post created!'});
         });
     })
-    
+
     //get all the posts
     .get(function(req, res) {
         ARposts.find(function(err, arposts){
             if(err)
                 res.send(err);
-                
+
             res.json(arposts);
         });
     });
-    
+
     router.route('/arposts/:arpost_id')
 
     // get the post with that id
@@ -82,22 +92,22 @@ router.route('/arposts')
     })
     //change the name of a poster (what parts of a post do we want to be changed? name? content? not sure)
     .put(function(req, res){
-        
+
         ARPosts.findById(req.params.arpost_id, function(err, arpost){
             if(err)
                 res.send(err);
-            
+
             arpost.name = req.body.name;//update post name
-            
+
             arpost.save(function(err){
                 if(err)
                     res.send(err);
-                    
+
                 res.json({message: 'Poster name updated!'});
             });
         });
     })
-    
+
     //delete a post
     .delete(function(req, res){
         ARPosts.remove({
@@ -105,7 +115,7 @@ router.route('/arposts')
         }, function(err, bear){
             if(err)
                 res.send(err);
-                
+
             res.json({message: 'Successfully deleted'});
         });
     });
