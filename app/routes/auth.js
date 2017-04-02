@@ -3,7 +3,7 @@ var jwt = require('jsonwebtoken');
 // Initialize Firebase Admin
 var admin = require('firebase-admin');
 var config = require('../../config');
-var serviceAccount = require('../../serviceAccountKey.json');
+
 admin.initializeApp({
   credential: admin.credential.cert(config.firebaseAdmin),
   databaseURL: "https://terrasite-58680.firebaseio.com"
