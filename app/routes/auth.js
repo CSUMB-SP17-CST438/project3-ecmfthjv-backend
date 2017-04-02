@@ -5,14 +5,12 @@ var admin = require('firebase-admin');
 var config = require('../../config');
 var serviceAccount = require('../../serviceAccountKey.json');
 admin.initializeApp({
-  //credential: admin.credential.cert(config.firebaseAdmin),
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(config.firebaseAdmin),
   databaseURL: "https://terrasite-58680.firebaseio.com"
 });
 
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
 router.post('/authenticate', function(req, res) {
-
   // Verify user is authenticated by Firebase
   // TODO: Set this function to verifyIdToken instead of getUser
   //admin.auth().verifyIdToken(req.body.idToken)
