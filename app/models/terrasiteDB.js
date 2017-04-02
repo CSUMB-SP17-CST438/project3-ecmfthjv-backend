@@ -8,6 +8,6 @@ var PostsSchema = new Schema({
     longitude: String,//what's the best datatype for long/lat?
     latitude: String,
     content: String
-})
+});
 
 module.exports = mongoose.model('ARposts', PostsSchema);
