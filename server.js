@@ -30,8 +30,6 @@ var port = process.env.PORT || 8080;        // set our port
 var mongoose = require('mongoose');
 mongoose.connect(config.databaseURI);//connect to db
 
-
-
 // ROUTES FOR API
 // =============================================================================
 var apiRouter = require('./app/routes/api');
