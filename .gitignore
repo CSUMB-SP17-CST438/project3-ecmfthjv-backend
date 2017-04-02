@@ -17,3 +17,6 @@ jspm_packages/
 
 # dotenv environment variables file
 .env
+
+#Firebase service account key
+serviceAccountKey.json

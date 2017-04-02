@@ -7,7 +7,7 @@ require('dotenv').config();
 var jwt = require('jsonwebtoken');
 var morgan = require('morgan');
 var config = require('./config');
-
+console.log(config.firebaseAdmin.privateKey);
 //Configure express server
 var express    = require('express');
 var app        = express();
@@ -33,10 +33,11 @@ mongoose.connect(config.databaseURI);//connect to db
 // ROUTES FOR API
 // =============================================================================
 var apiRouter = require('./app/routes/api');
+var authRouter = require('./app/routes/auth');
 
 //Register routes
 app.use('/api', apiRouter);
-
+app.use('/', authRouter);
 //Start server
 var Server = app.listen(port);
 console.log('Server listening on port %d in %s mode', port, app.get('env'));
