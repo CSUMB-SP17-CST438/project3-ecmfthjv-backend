@@ -3,10 +3,9 @@ var jwt = require('jsonwebtoken');
 // Initialize Firebase Admin
 var admin = require('firebase-admin');
 var config = require('../../config');
-var serviceAccountKey = require('../../serviceAccountKey');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccountKey),
+  credential: admin.credential.cert(config.firebaseAdmin),
   databaseURL: "https://terrasite-58680.firebaseio.com"
 });
 // route to authenticate a user (POST http://localhost:8080/api/authenticate)
