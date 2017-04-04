@@ -1,13 +1,13 @@
 //server.js
-// Aquire env vars from .env file
-require('dotenv').config();
+// Aquire env vars from .env file if in dev environment
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 // BASE SETUP
 // =============================================================================
 // Imports
 var jwt = require('jsonwebtoken');
 var morgan = require('morgan');
 var config = require('./config');
-console.log(config.firebaseAdmin.privateKey);
+
 //Configure express server
 var express    = require('express');
 var app        = express();
