@@ -1,3 +1,4 @@
+var geolib = require('geolib');
 var router = require('express').Router();
 
 var ARposts = require('../models/terrasiteDB');
@@ -26,6 +27,7 @@ router.route('/arposts')
   arpost.longitude = req.body.longitude;
   arpost.latitude = req.body.latitude;
   arpost.content = req.body.content;
+  arpost.altitude = req.body.altitude;
 
   //save the post & check for errors
   arpost.save(function(err){
@@ -85,5 +87,42 @@ router.route('/arposts/:arpost_id')
     res.json({message: 'Successfully deleted'});
   });
 });
+
+
+router.route('/arposts/:lat&:long&:alt')
+
+// get the post with that id
+.get(function(req, res) {
+  ARposts.findById(req.params.arpost_id, function(err, arpost) {
+    if (err)
+    res.send(err);
+    res.json(arpost);
+  });
+})
+
+.get(function(req, res) {
+  ARposts.find({
+    latitude: req.params.lat,
+    longitude: req.params.long,
+    altitude: req.params.altitude
+  })
+})
+
+.put(function(req, res){
+
+  ARposts.findById(req.params.arpost_id, function(err, arpost){
+    if(err)
+    res.send(err);
+
+    arpost.name = req.body.name;//update post name
+
+    arpost.save(function(err){
+      if(err)
+      res.send(err);
+
+      res.json({message: 'Poster name updated!'});
+    });
+  });
+})
 
 module.exports = router;
