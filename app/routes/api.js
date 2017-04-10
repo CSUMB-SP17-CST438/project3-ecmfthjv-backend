@@ -1,5 +1,5 @@
-var geolib = require('geolib');
 var router = require('express').Router();
+var geolib = require('geolib');
 
 var ARposts = require('../models/terrasiteDB');
 
@@ -24,8 +24,7 @@ router.route('/arposts')
 
   var arpost = new ARposts();//create new instance of post model
   arpost.name = req.body.name;//set name & other values of post
-  arpost.longitude = req.body.longitude;
-  arpost.latitude = req.body.latitude;
+  arpost.location.coordinates = [req.body.longitude, req.body.latitude];
   arpost.content = req.body.content;
   arpost.altitude = req.body.altitude;
 
@@ -89,40 +88,31 @@ router.route('/arposts/:arpost_id')
 });
 
 
-router.route('/arposts/:lat&:long&:alt')
-
-// get the post with that id
-.get(function(req, res) {
-  ARposts.findById(req.params.arpost_id, function(err, arpost) {
-    if (err)
-    res.send(err);
-    res.json(arpost);
-  });
-})
+router.route('/arposts/:latitude/:longitude/:altitude')
 
 .get(function(req, res) {
-  ARposts.find({
-    latitude: req.params.lat,
-    longitude: req.params.long,
-    altitude: req.params.altitude
-  })
-})
+  // Query for data points inside of boundaries
+  ARposts.aggregate(
+    [
+      { "$geoNear": {
+        near: {
+          type: 'Point',
+          coordinates: [geolib.useDecimal(req.params.longitude), geolib.useDecimal(req.params.latitude)]
+        },
+        "distanceField": "distance",
+        "spherical": true,
+        "maxDistance": 10000
+      }}
+    ],
+    function(err,results) {
+      if(err){
+        //console.log(err);
+      }
+      console.log(results);
+      res.json(results);
+    }
+  );
 
-.put(function(req, res){
-
-  ARposts.findById(req.params.arpost_id, function(err, arpost){
-    if(err)
-    res.send(err);
-
-    arpost.name = req.body.name;//update post name
-
-    arpost.save(function(err){
-      if(err)
-      res.send(err);
-
-      res.json({message: 'Poster name updated!'});
-    });
-  });
-})
+});
 
 module.exports = router;

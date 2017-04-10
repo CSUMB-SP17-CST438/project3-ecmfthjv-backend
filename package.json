@@ -17,7 +17,6 @@
     "geolib": "^2.0.22",
     "jsonwebtoken": "^7.3.0",
     "mongoose": "^4.9.0",
-    "mongoose-double": "0.0.1",
     "morgan": "^1.8.1",
     "supertest": "^3.0.0"
   },
