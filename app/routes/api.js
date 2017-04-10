@@ -1,4 +1,5 @@
 var router = require('express').Router();
+var geolib = require('geolib');
 
 var ARposts = require('../models/terrasiteDB');
 
@@ -23,9 +24,9 @@ router.route('/arposts')
 
   var arpost = new ARposts();//create new instance of post model
   arpost.name = req.body.name;//set name & other values of post
-  arpost.longitude = req.body.longitude;
-  arpost.latitude = req.body.latitude;
+  arpost.location.coordinates = [req.body.longitude, req.body.latitude];
   arpost.content = req.body.content;
+  arpost.altitude = req.body.altitude;
 
   //save the post & check for errors
   arpost.save(function(err){
@@ -84,6 +85,34 @@ router.route('/arposts/:arpost_id')
 
     res.json({message: 'Successfully deleted'});
   });
+});
+
+
+router.route('/arposts/:latitude/:longitude/:altitude')
+
+.get(function(req, res) {
+  // Query for data points inside of boundaries
+  ARposts.aggregate(
+    [
+      { "$geoNear": {
+        near: {
+          type: 'Point',
+          coordinates: [geolib.useDecimal(req.params.longitude), geolib.useDecimal(req.params.latitude)]
+        },
+        "distanceField": "distance",
+        "spherical": true,
+        "maxDistance": 200
+      }}
+    ],
+    function(err,results) {
+      if(err){
+        //console.log(err);
+      }
+      console.log(results);
+      res.json(results);
+    }
+  );
+
 });
 
 module.exports = router;
