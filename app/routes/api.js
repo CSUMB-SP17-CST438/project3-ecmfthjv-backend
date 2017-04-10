@@ -101,7 +101,7 @@ router.route('/arposts/:latitude/:longitude/:altitude')
         },
         "distanceField": "distance",
         "spherical": true,
-        "maxDistance": 10000
+        "maxDistance": 200
       }}
     ],
     function(err,results) {
