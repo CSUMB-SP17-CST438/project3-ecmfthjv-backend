@@ -1,20 +1,15 @@
-§ 1 point: README.md is in the root of the repository on Github
-§ 1 point: readme file explains what app does
-§ 1 point: readme file explains who worked on it
-§ 1 point: readme file explains what was completed
-§ 1 point: readme file explains known problems
-
-
 #### App does:
-This is the backend for the Terrasite app. It sets up the api flow that will allow the app to communicate with the server and get info from and give it to the database.
-It is deployed on heroku and uses MongoDB for the database.
+This is the backend for the PostAR app. It sets up the api flow that will allow the app to authenticate with the server, post location messages to save in database, and retrieve messages in a 200 meter radius.  It is deployed on Heroku, uses MongoDB for the database, and JWT for authentication.
 
 #### Who worked on it:
-The backend was worked on by Louie & Jessica for Milestone 1. The frontend was worked on by Louie & Mike & Tomas for Milestone 1.
+The backend was worked on by Louie & Jessica for Milestone 2. The frontend was worked on by Louie & Mike & Tomas for Milestone 2.
 
 #### Completed:
-Basic api flow with get/put/post/delete was done. A database model was set up for the posts which includes a name, latitude, longitude, and content of the message. The database
-was set up with MongoDB and Heroku using mLab.
+- Authentication route setup that verifies Firebase token and issues JWT token.
+- Middleware for authentication check implemented to protect API routes
+- Database model was updated to use GeoJSON for the posts which include a name, latitude, longitude, altitude and content of the message.
+- API route added that allows client to request all data points within 200 meters of current location.
 
 #### Known Problems:
-Paramaters don't appear to be sent along with the api call at this time.
+- Code coverage in Jest is not robust
+- JWT is unencrypted
