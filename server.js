@@ -34,10 +34,12 @@ mongoose.connect(config.databaseURI);//connect to db
 // =============================================================================
 var apiRouter = require('./app/routes/api');
 var authRouter = require('./app/routes/auth');
+var authVerification = require('./app/middleware/authVerification');
 
 //Register routes
-app.use('/api', apiRouter);
 app.use('/', authRouter);
+app.use(authVerification);
+app.use('/api', apiRouter);
 //Start server
 var Server = app.listen(port);
 console.log('Server listening on port %d in %s mode', port, app.get('env'));
