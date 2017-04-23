@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 var jwt = require('jsonwebtoken');
 var morgan = require('morgan');
 var config = require('./config');
+var path = require('path');
 
 //Configure express server
 var express    = require('express');
@@ -37,7 +38,8 @@ var authRouter = require('./app/routes/auth');
 var authVerification = require('./app/middleware/authVerification');
 
 //Register routes
-app.use('/', authRouter);
+app.use('/public', express.static(path.join(__dirname + '/public')));
+app.use('/authenticate', authRouter);
 app.use(authVerification);
 app.use('/api', apiRouter);
 //Start server
